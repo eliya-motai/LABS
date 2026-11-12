@@ -1,0 +1,55 @@
+{
+  "name": "JCT Intro to Cyber - Labs",
+
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  // Needed for gdb (ptrace) and for `setarch -R` to turn off ASLR
+  // in the buffer-overflow / integer-overflow labs.
+  "capAdd": ["SYS_PTRACE"],
+  "securityOpt": ["seccomp=unconfined"],
+
+  // Smallest machine is enough for these labs; keeps students inside
+  // the free monthly quota.
+  "hostRequirements": {
+    "cpus": 2
+  },
+
+  // Runs once, when the codespace is first created.
+  "onCreateCommand": "bash .devcontainer/on-create.sh",
+
+  // Runs on every start / resume of the codespace.
+  "postStartCommand": "bash .devcontainer/post-start.sh",
+
+  "waitFor": "onCreateCommand",
+
+  "forwardPorts": [80, 3306],
+  "portsAttributes": {
+    "80": {
+      "label": "Lab web server (Apache)",
+      "onAutoForward": "notify"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "bmewburn.vscode-intelephense-client",
+        "ms-vscode.hexeditor"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n"
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}

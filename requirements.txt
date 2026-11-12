@@ -1,0 +1,5 @@
+argparse
+httplib2
+pycryptodome
+requests
+urllib3
